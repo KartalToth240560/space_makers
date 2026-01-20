@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: something:latest 
+    # image: something:latest 
     container_name: isaaclab-training
     runtime: nvidia
     environment:

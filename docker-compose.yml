@@ -8,52 +8,15 @@ services:
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
-      - PATH=/opt/conda/bin:$PATH
     volumes:
       - ./configs:/workspace/configs:rw
       - ./scripts:/workspace/scripts:rw
       - ./outputs:/workspace/outputs:rw
-      - isaaclab-data:/workspace/IsaacLab
       
     network_mode: host
     stdin_open: true
     tty: true
-    command: >
-      bash -c "
-      echo '=== Installing dependencies ===' &&
-      apt-get update &&
-      apt-get install -y git wget curl &&
-      
-      echo '=== Installing Miniconda ===' &&
-      if [ ! -d '/opt/conda' ]; then
-        wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh &&
-        bash /tmp/miniconda.sh -b -p /opt/conda &&
-        rm /tmp/miniconda.sh
-      fi &&
-      
-      export PATH=/opt/conda/bin:$PATH &&
-      conda --version &&
-      
-      echo '=== Cloning Isaac Lab ===' &&
-      if [ ! -d '/workspace/IsaacLab' ]; then
-        cd /workspace &&
-        git clone https://github.com/isaac-sim/IsaacLab.git &&
-        cd IsaacLab &&
-        echo 'Installing Isaac Lab...' &&
-        ./isaaclab.sh --install
-      else
-        echo 'Isaac Lab already exists, skipping clone'
-      fi &&
-      
-      echo '=== Creating output directories ===' &&
-      mkdir -p /workspace/outputs/models /workspace/outputs/logs /workspace/outputs/videos &&
-      
-      echo '=== Setup complete! ===' &&
-      echo 'Isaac Lab location: /workspace/IsaacLab' &&
-      echo 'Conda location: /opt/conda' &&
-      
-      tail -f /dev/null
-      "
+    command: tail -f /dev/null
     deploy:
       resources:
         reservations:
@@ -61,6 +24,3 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-
-volumes:
-  isaaclab-data:

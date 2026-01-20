@@ -9,9 +9,9 @@ services:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
     volumes:
-      - ./configs:/workspace/configs:rw
-      - ./scripts:/workspace/scripts:rw
-      - ./outputs:/workspace/outputs:rw
+      - /var/lib/docker/volumes/portainer_data/_data/compose/isaaclab/scripts:/workspace/scripts:rw
+      - /var/lib/docker/volumes/portainer_data/_data/compose/isaaclab/configs:/workspace/configs:rw
+      - /var/lib/docker/volumes/portainer_data/_data/compose/isaaclab/outputs:/workspace/outputs:rw
       # Persistent
 
       - isaaclab-models:/workspace/models

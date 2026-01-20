@@ -5,8 +5,8 @@ WORKDIR /workspace
 RUN git clone https://github.com/isaac-sim/IsaacLab.git
 WORKDIR /workspace/IsaacLab
 
-# Install dependencies
-RUN ./isaaclab.sh --install
+# Do not Install dependencies
+# RUN ./isaaclab.sh --install
 
 # Set up Python environment
 ENV PYTHONPATH="/workspace/IsaacLab:${PYTHONPATH}"

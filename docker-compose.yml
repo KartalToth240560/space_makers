@@ -10,6 +10,7 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - DISPLAY=${DISPLAY}
       - QT_X11_NO_MITSHM=1
+      - ACCEPT_EULA=Y
     volumes:
       # Mount your project code
       - ./configs:/workspace/configs:rw

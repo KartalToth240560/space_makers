@@ -2,9 +2,7 @@ version: '3.8'
 
 services:
   isaaclab:
-    build:
-      context: .
-      dockerfile: docker/Dockerfile
+    image: nvcr.io/nvidia/isaac-sim:2023.1.1
     container_name: isaaclab-training
     runtime: nvidia
     environment:
@@ -28,6 +26,17 @@ services:
     network_mode: host
     stdin_open: true
     tty: true
+    command: >
+      bash -c "
+      if [ ! -d /workspace/IsaacLab ]; then
+        cd /workspace &&
+        git clone https://github.com/isaac-sim/IsaacLab.git &&
+        cd IsaacLab &&
+        ./isaaclab.sh --install
+      fi &&
+      mkdir -p /workspace/outputs/models /workspace/outputs/logs /workspace/outputs/videos &&
+      tail -f /dev/null
+      "
     deploy:
       resources:
         reservations:

@@ -27,4 +27,4 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/isaac-lab:latest
+          tags: ghcr.io/kartaltoth240560/isaac-lab:latest

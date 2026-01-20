@@ -4,31 +4,30 @@ services:
   isaaclab:
     build:
       context: .
-      dockerfile: Dockerfile
-    image: isaaclab:latest
-    container_name: isaaclab
+      dockerfile: docker/Dockerfile
+    container_name: isaaclab-training
     runtime: nvidia
-    restart: unless-stopped
-    
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - NVIDIA_DRIVER_CAPABILITIES=all
-      - ACCEPT_EULA=Y
-    
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
     volumes:
-      - isaaclab-logs:/workspace/IsaacLab/logs
-      - isaaclab-checkpoints:/workspace/IsaacLab/checkpoints
-      - isaaclab-results:/workspace/results
-      - isaaclab-configs:/workspace/configs
-    
-    ports:
-      - "6006:6006"                 # TensorBoard
-      - "47995-48012:47995-48012"   # Isaac Sim streaming
-      - "8211:8211"                 # WebRTC
-    
+      # Mount your project code
+      - ./configs:/workspace/configs:rw
+      - ./scripts:/workspace/scripts:rw
+      
+      # Mount outputs to retrieve on your PC
+      - ./outputs/models:/workspace/outputs/models:rw
+      - ./outputs/logs:/workspace/outputs/logs:rw
+      - ./outputs/videos:/workspace/outputs/videos:rw
+      
+      # X11 for visualization (optional)
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      
+    network_mode: host
     stdin_open: true
     tty: true
-    
     deploy:
       resources:
         reservations:
@@ -36,9 +35,3 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
-
-volumes:
-  isaaclab-logs:
-  isaaclab-checkpoints:
-  isaaclab-results:
-  isaaclab-configs:

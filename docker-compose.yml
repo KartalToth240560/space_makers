@@ -12,7 +12,11 @@ services:
       - ./configs:/workspace/configs:rw
       - ./scripts:/workspace/scripts:rw
       - ./outputs:/workspace/outputs:rw
-      
+      # Persistent
+
+      - isaaclab-models:/workspace/models
+      - isaaclab-datasets:/workspace/datasets
+      - isaaclab-logs:/workspace/logs
     network_mode: host
     stdin_open: true
     tty: true
@@ -24,3 +28,8 @@ services:
             - driver: nvidia
               count: all
               capabilities: [gpu]
+
+volumes:
+  isaaclab-models:
+  isaaclab-datasets:
+  isaaclab-logs:

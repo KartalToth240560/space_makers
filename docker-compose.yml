@@ -2,42 +2,24 @@ version: '3.8'
 
 services:
   isaaclab:
-    image: nvcr.io/nvidia/isaac-lab:2.3.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: isaac-lab:latest 
     container_name: isaaclab-training
     runtime: nvidia
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
-      - NVIDIA_DRIVER_CAPABILITIES=all
-      - DISPLAY=${DISPLAY}
-      - QT_X11_NO_MITSHM=1
       - ACCEPT_EULA=Y
     volumes:
-      # Mount your project code
       - ./configs:/workspace/configs:rw
       - ./scripts:/workspace/scripts:rw
-      
-      # Mount outputs to retrieve on your PC
-      - ./outputs/models:/workspace/outputs/models:rw
-      - ./outputs/logs:/workspace/outputs/logs:rw
-      - ./outputs/videos:/workspace/outputs/videos:rw
-      
-      # X11 for visualization (optional)
-      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./outputs:/workspace/outputs:rw
       
     network_mode: host
     stdin_open: true
     tty: true
-    command: >
-      bash -c "
-      if [ ! -d /workspace/IsaacLab ]; then
-        cd /workspace &&
-        git clone https://github.com/isaac-sim/IsaacLab.git &&
-        cd IsaacLab &&
-        ./isaaclab.sh --install
-      fi &&
-      mkdir -p /workspace/outputs/models /workspace/outputs/logs /workspace/outputs/videos &&
-      tail -f /dev/null
-      "
+    command: tail -f /dev/null
     deploy:
       resources:
         reservations:

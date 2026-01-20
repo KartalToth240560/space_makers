@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   isaaclab:
-    image: ghcr.io/kartaltoth240560/isaac-lab:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # image: something:latest 
     container_name: isaaclab-training
     runtime: nvidia
     environment:

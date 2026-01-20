@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  isaaclab:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: isaaclab:latest
+    container_name: isaaclab
+    runtime: nvidia
+    restart: unless-stopped
+    
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - ACCEPT_EULA=Y
+    
+    volumes:
+      - isaaclab-logs:/workspace/IsaacLab/logs
+      - isaaclab-checkpoints:/workspace/IsaacLab/checkpoints
+      - isaaclab-results:/workspace/results
+      - isaaclab-configs:/workspace/configs
+    
+    ports:
+      - "6006:6006"                 # TensorBoard
+      - "47995-48012:47995-48012"   # Isaac Sim streaming
+      - "8211:8211"                 # WebRTC
+    
+    stdin_open: true
+    tty: true
+    
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  isaaclab-logs:
+  isaaclab-checkpoints:
+  isaaclab-results:
+  isaaclab-configs:

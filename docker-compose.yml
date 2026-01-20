@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   isaaclab:
-    image: ghcr.io/KartalToth240560/isaac-lab:latest
+    image: ghcr.io/kartaltoth240560/isaac-lab:latest
     container_name: isaaclab-training
     runtime: nvidia
     environment:

@@ -6,14 +6,7 @@ services:
     container_name: isaaclab-training
     runtime: nvidia
     ports:
-      - "3900:22"   # Random port 1
-      - "3901:22"   # Random port 2
-      - "3902:22"   # Random port 3
-      - "3903:22"   # Random port 4
-      - "3905:22"   # Random port 5
-      - "3910:22"   # Random port 6
       - "3925:22"   # Random port 7
-      - "3950:22"   # Random port 8
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y

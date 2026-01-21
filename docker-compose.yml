@@ -5,29 +5,28 @@ services:
     image: nvcr.io/nvidia/isaac-lab:2.3.0
     container_name: isaaclab-training
     runtime: nvidia
-    ports:
-      - "27015:22"  # Map host:27015 to container:22
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
     volumes:
-      - ./app.py:/app/app.py
       - ./configs:/workspace/configs:rw
       - ./scripts:/workspace/scripts:rw
       - ./outputs:/workspace/outputs:rw
       - isaaclab-models:/workspace/models
       - isaaclab-datasets:/workspace/datasets
       - isaaclab-logs:/workspace/logs
+    # Override the entrypoint
+    entrypoint: ["/bin/bash", "-c"]
     command: >
-      bash -c "
-      apt-get update &&
+      "apt-get update &&
       apt-get install -y openssh-server &&
       mkdir -p /var/run/sshd &&
       echo 'root:YourPasswordHere' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
+      sed -i 's/#Port 22/Port 27015/' /etc/ssh/sshd_config &&
       /usr/sbin/sshd &&
-      tail -f /dev/null
-      "
+      tail -f /dev/null"
+    network_mode: host
     stdin_open: true
     tty: true
     deploy:

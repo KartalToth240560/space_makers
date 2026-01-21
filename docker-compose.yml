@@ -6,7 +6,14 @@ services:
     container_name: isaaclab-training
     runtime: nvidia
     ports:
-      - "3178:3178" 
+      - "2247:22"   # Random port 1
+      - "2589:22"   # Random port 2
+      - "2891:22"   # Random port 3
+      - "3012:22"   # Random port 4
+      - "3256:22"   # Random port 5
+      - "3478:22"   # Random port 6
+      - "3721:22"   # Random port 7
+      - "3899:22"   # Random port 8
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
@@ -26,7 +33,6 @@ services:
       chown root:root /run/sshd &&
       echo 'root:YourPasswordHere' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
-      sed -i 's/#Port 22/Port 3178/' /etc/ssh/sshd_config &&
       chmod 600 /etc/ssh/ssh_host_* &&
       /usr/sbin/sshd &&
       tail -f /dev/null"

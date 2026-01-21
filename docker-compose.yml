@@ -6,7 +6,10 @@ services:
     container_name: isaaclab-training
     runtime: nvidia
     ports:
-      - "3925:22"   # Random port 7
+      - "3925:22"   # ssh
+      - "3926:8211"      # WebRTC Streaming
+      - "3927:8899"      # LiveSync (optional)
+      - "3928-3945:3928-3945/udp"  # WebRTC media ports
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
@@ -19,7 +22,16 @@ services:
       - isaaclab-logs:/workspace/logs
     entrypoint: ["/bin/bash", "-c"]
     command: >
-      "tail -f /dev/null"
+      "apt-get update && 
+      apt-get install -y openssh-server && 
+      mkdir -p /run/sshd && 
+      chmod 755 /run/sshd && 
+      chown root:root /run/sshd && 
+      echo 'root:issac' | chpasswd && 
+      sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && 
+      chmod 600 /etc/ssh/ssh_host_* && 
+      service ssh restart && 
+      tail -f /dev/null"
     stdin_open: true
     tty: true
     deploy:

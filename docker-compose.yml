@@ -19,7 +19,9 @@ services:
     command: >
       "apt-get update &&
       apt-get install -y openssh-server &&
-      mkdir -p /var/run/sshd &&
+      mkdir -p /run/sshd &&
+      chmod 755 /run/sshd &&
+      chown root:root /run/sshd &&
       echo 'root:YourPasswordHere' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
       sed -i 's/#Port 22/Port 27015/' /etc/ssh/sshd_config &&

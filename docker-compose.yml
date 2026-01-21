@@ -15,7 +15,6 @@ services:
       - isaaclab-models:/workspace/models
       - isaaclab-datasets:/workspace/datasets
       - isaaclab-logs:/workspace/logs
-    # Override the entrypoint
     entrypoint: ["/bin/bash", "-c"]
     command: >
       "apt-get update &&
@@ -24,6 +23,7 @@ services:
       echo 'root:YourPasswordHere' | chpasswd &&
       sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config &&
       sed -i 's/#Port 22/Port 27015/' /etc/ssh/sshd_config &&
+      chmod 600 /etc/ssh/ssh_host_* &&
       /usr/sbin/sshd &&
       tail -f /dev/null"
     network_mode: host

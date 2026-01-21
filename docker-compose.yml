@@ -5,6 +5,8 @@ services:
     image: nvcr.io/nvidia/isaac-lab:2.3.0
     container_name: isaaclab-training
     runtime: nvidia
+    ports:
+      - "27015:27015"  # Map host:27015 to container:27015
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
@@ -28,7 +30,6 @@ services:
       chmod 600 /etc/ssh/ssh_host_* &&
       /usr/sbin/sshd &&
       tail -f /dev/null"
-    network_mode: host
     stdin_open: true
     tty: true
     deploy:

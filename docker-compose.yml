@@ -8,11 +8,12 @@ services:
     ports:
       - "3725:22"   # ssh
       - "3926:8211"      # WebRTC Streaming
-      # - "3927:8899"      # LiveSync (optional)
-      # - "3928-3945:3928-3945/udp"  # WebRTC media ports
+      - "3927:8899"      # LiveSync (optional)
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
+      - LIVESTREAM_ENABLE=1
+      - LIVESTREAM_PORT=8211
     volumes:
       - ./configs:/workspace/configs:rw
       - ./scripts:/workspace/scripts:rw

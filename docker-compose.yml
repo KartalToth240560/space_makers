@@ -9,9 +9,9 @@ services:
       - "3725:22"   # ssh
       - "3926:8211"      # WebRTC Streaming 1
       - "3927:8899"      # LiveSync (optional)
-      - "3928:49100"      # WebRTC Streaming 2
-      - "3929:8011"      # Unknown
-      - "3930:47998/udp"
+      - "3928:3928"      # WebRTC Streaming 2
+      - "3929:3929"      # Unknown
+      - "3930:3930/udp"
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y

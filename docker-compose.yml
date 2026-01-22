@@ -6,7 +6,7 @@ services:
     container_name: isaaclab-training
     runtime: nvidia
     ports:
-      - "3924:22"   # ssh
+      - "3725:22"   # ssh
       - "3926:8211"      # WebRTC Streaming
       # - "3927:8899"      # LiveSync (optional)
       # - "3928-3945:3928-3945/udp"  # WebRTC media ports

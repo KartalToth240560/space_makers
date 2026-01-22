@@ -6,12 +6,10 @@ services:
     container_name: isaaclab-training
     runtime: nvidia
     ports:
-      - "3725:22"   # ssh
-      - "3926:8211"      # WebRTC Streaming 1
-      - "3927:8899"      # LiveSync (optional)
-      - "3928:3928"      # WebRTC Streaming 2
-      - "3929:3929"      # Unknown
-      - "3930:3930/udp"
+      - "3725:22"          # SSH
+      - "3928:49100/tcp"   # Signal port (Isaac Sim default)
+      - "3930:47998/udp"   # Stream port (Isaac Sim default)
+      - "3931:8211/tcp"    # Native streaming viewer (optional)
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y

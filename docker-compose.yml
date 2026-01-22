@@ -10,7 +10,8 @@ services:
       - "3926:8211"      # WebRTC Streaming 1
       - "3927:8899"      # LiveSync (optional)
       - "3928:49100"      # WebRTC Streaming 2
-      - "3929:8011"      # WebRTC Streaming 2
+      - "3929:8011"      # Unknown
+      - "3930:47998/udp"
     environment:
       - NVIDIA_VISIBLE_DEVICES=all
       - ACCEPT_EULA=Y
